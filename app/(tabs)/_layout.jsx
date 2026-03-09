@@ -1,5 +1,4 @@
 import { Tabs } from 'expo-router';
-import { Appearance, UseColorScheme } from 'react-native/types_generated/index';
 
 export default function TabsLayout() {
   return (

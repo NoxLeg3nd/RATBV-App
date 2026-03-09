@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { View , Text, StyleSheet } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import * as SQLite from 'expo-sqlite';
-import { Appearance, UseColorScheme } from 'react-native/types_generated/index';
 
 async function loadAndQueryDB() {
   const dbName = "gtfs.db";

@@ -1,5 +1,4 @@
-import { View, Text } from 'react-native';
-import { Appearance, UseColorScheme } from 'react-native/types_generated/index';
+import { View, Text, StyleSheet } from 'react-native';
 
 export default function Favourites() {
   return (
