@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-export default function Favourites() {
+export default function Home() {
   return (
     <SafeAreaProvider>
       <View style={homeStyles.homeView}>
