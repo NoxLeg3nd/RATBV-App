@@ -1,16 +1,19 @@
 import { View, Text, StyleSheet } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 export default function Favourites() {
   return (
-    <View style={favouritesStyles.favouritesView}>
-      <Text style={favouritesStyles.paragraph}>Favourites</Text>
-    </View>
+    <SafeAreaProvider>
+      <View style={homeStyles.homeView}>
+        <Text style={homeStyles.paragraph}>Welcome</Text>
+      </View>
+    </SafeAreaProvider>
   );
 }
 
-const favouritesStyles = StyleSheet.create({
+const homeStyles = StyleSheet.create({
   
-  favouritesView: {
+  homeView: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
