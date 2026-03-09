@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 import { View, Text, StyleSheet } from 'react-native';
+=======
+import { View, Text } from 'react-native';
+import { Appearance, UseColorScheme } from 'react-native/types_generated/index';
+>>>>>>> 50ef7d8b452426ce3c1a767151e1afd3deae63b3
 
 export default function Favourites() {
   return (
