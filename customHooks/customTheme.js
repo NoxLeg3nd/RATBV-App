@@ -1,22 +1,30 @@
-import { useColorScheme } from "react-native";
-
+import { useState
+    
+ } from "react";
 const ThemeColors = {
     light: {
         background:"white",
         text: "black"
     },
 
-    black: {
+    dark: {
         background: "black",
         text: "white"
     },
 }
 
 const useThemeColors = () => {
-const colorScheme = useColorScheme();
-  const colors = ThemeColors[colorScheme];
+  const [theme, setTheme] = useState("light");
 
-  return colors;
-}
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === "light" ? "dark" : "light"));
+  };
+
+  return {
+    colors: ThemeColors[theme],
+    toggleTheme,
+    theme,
+  };
+};
 
 export default useThemeColors;

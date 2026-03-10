@@ -1,10 +1,13 @@
-import { View, Text, StyleSheet, Image} from 'react-native';
+import { View, Text, StyleSheet, Image, Button} from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import useThemeColors from '../../customHooks/customTheme';
 
 export default function Home() {
+  const { colors, toggleTheme, theme } = useThemeColors();
   return (
     <SafeAreaProvider>
       <View style={homeStyles.homeView}>
+        <Button style={homeStyles.toggleButton} title={`Switch to ${theme === "light" ? "Dark" : "Light"} Mode`} onPress={toggleTheme}/>
         <Image style={homeStyles.decoImage} source={require("../../assets/ratbv.jpg")} resizeMode='contain'/>
         <Image style={homeStyles.coverImage} source={require("../../assets/coverphoto.jpg")} resizeMode="contain" />
         <Text style={homeStyles.welcomeParagraph}>
@@ -25,6 +28,10 @@ const homeStyles = StyleSheet.create({
     backgroundColor: "#FFFF",
   },
 
+  toggleButton: {
+    width: 20,
+  },
+
   welcomeParagraph: {
     flex: 1,
     position: 'absolute',
@@ -33,7 +40,7 @@ const homeStyles = StyleSheet.create({
     fontWeight: "bold",
   },
 
-  warningParagraph:{
+  warningParagraph: {
     flex: 2,
     position: 'relative',
     fontWeight: "bold",
@@ -41,7 +48,7 @@ const homeStyles = StyleSheet.create({
     textAlign: "center",
   },
 
-  decoImage:{
+  decoImage: {
     flex: 1,
     justifyContent: "center",
     position: 'relative',
@@ -50,7 +57,7 @@ const homeStyles = StyleSheet.create({
     width: 120
   },
 
-  coverImage:{
+  coverImage: {
     flex: 2,
     position:'relative',
     width: "100%",
