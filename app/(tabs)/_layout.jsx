@@ -1,6 +1,15 @@
-import { Tabs } from 'expo-router';
+import { Tabs } from 'expo-router'
+import useThemeColors from '../../customHooks/customTheme';
+import  {Pressable, StyleSheet, Text}  from 'react-native';
 
 export default function TabsLayout() {
+   const { colors, toggleTheme, theme } = useThemeColors();
+
+  const toggleButton = () => (
+    <Pressable style={tabButton.toggleButton} onPress={toggleTheme}>
+      <Text>{theme}</Text>
+    </Pressable>
+  );
   return (
     <Tabs  screenOptions={{ 
       tabBarStyle: { 
@@ -15,6 +24,7 @@ export default function TabsLayout() {
         }}>
       <Tabs.Screen name="home" options={{ 
         title: 'Home',
+        headerRight: toggleButton,
         headerStyle: {
           backgroundColor: "rgb(136, 186, 255)",
         },
@@ -25,6 +35,7 @@ export default function TabsLayout() {
         }} />
       <Tabs.Screen name="routes" options={{ 
         title: 'Routes',
+        headerRight: toggleButton,
         headerStyle: {
           backgroundColor: "rgb(136, 186, 255)",
         },
@@ -34,7 +45,8 @@ export default function TabsLayout() {
         },
         }} />
       <Tabs.Screen name="favourites" options={{ 
-        title: 'Favourites', 
+        title: 'Favourites',
+        headerRight: toggleButton, 
         headerStyle: {
           backgroundColor: "rgb(136, 186, 255)",
         },
@@ -46,3 +58,16 @@ export default function TabsLayout() {
     </Tabs>
   );
 }
+
+const tabButton = StyleSheet.create({
+
+    toggleButton: {
+    width: 30,
+    height: 20,
+    position: "relative", 
+    borderWidth: 1,
+    borderColor: "black",
+    right: 50
+  }, 
+
+});
