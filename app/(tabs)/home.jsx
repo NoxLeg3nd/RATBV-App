@@ -1,7 +1,5 @@
 import { View, Text, StyleSheet, Image} from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import useThemeColors from './customTheme';
-import React from 'react';
 
 export default function Home() {
   return (
