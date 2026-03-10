@@ -15,11 +15,12 @@ async function loadAndQueryDB() {
     sqliteDir.create();
   }
 
-  if (!dbFile.exists) {
-    const asset = Asset.fromModule(require("../../assets/gtfs.db"));
-    await asset.downloadAsync();
+  const asset = Asset.fromModule(require("../../assets/gtfs.db"));
+  await asset.downloadAsync();
 
-    const assetFile = new File(asset.localUri);
+  const assetFile = new File(asset.localUri);
+  
+  if(!assetFile.exists) {
     assetFile.copy(dbFile);
   }
 
