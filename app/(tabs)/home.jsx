@@ -1,6 +1,6 @@
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { router } from 'expo-router';
+import { View, Text, StyleSheet, Image, Pressable } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-
 
 export default function Home() {
   
@@ -8,13 +8,15 @@ export default function Home() {
     <SafeAreaProvider>
       <View style={homeStyles.homeView}>
         <Image style={homeStyles.decoImage} source={require("../../assets/ratbv.jpg")} resizeMode='contain'/>
-        <Image style={homeStyles.coverImage} source={require("../../assets/coverphoto.jpg")} resizeMode="contain" />
+        <Image style={homeStyles.coverImage} source={require("../../assets/coverphoto.jpg")} resizeMode='cover' />
         <Text style={homeStyles.welcomeParagraph}>
           Welcome to the RATBV App!
-          </Text>
-          <Text style={homeStyles.warningParagraph}> Note: This is the unofficial app version of the RATBV website and we do not take responsability for eventual casualties.</Text>
+        </Text>
+          <Pressable onPress={() => router.push('../about')} style={homeStyles.aboutPressable}>
+            <Text style={homeStyles.aboutTitle}>About & info</Text>
+          </Pressable>
       </View>
-    </SafeAreaProvider>
+    </SafeAreaProvider> 
   );
 }
 
@@ -29,34 +31,49 @@ const homeStyles = StyleSheet.create({
 
   welcomeParagraph: {
     flex: 1,
-    position: 'absolute',
-    fontFamily: "Comic sans",
     fontSize: 20,
-    fontWeight: "bold",
-  },
-
-  warningParagraph: {
-    flex: 2,
-    position: 'relative',
-    fontWeight: "bold",
-    top: 230,
-    textAlign: "center",
+    fontWeight: 'bold',
   },
 
   decoImage: {
     flex: 1,
     justifyContent: "center",
-    position: 'relative',
+    alignItems: "center",
     bottom: 45,
     height: 90,
-    width: 120
+    width: 120,
   },
 
   coverImage: {
-    flex: 2,
-    position:'relative',
-    width: "100%",
-    height: 200,
-    bottom: 100,
-  }
+    flex: 1,
+    backgroundColor: "green",
+    alignContent: "flex-start",
+    width: 400,
+    height: '100%',
+    bottom: 45
+  },
+
+  aboutContainer: {
+    width: '100%',
+    paddingHorizontal: 16,
+    marginTop: 'auto',
+    marginBottom: 20,
+},
+
+  aboutPressable: {
+    backgroundColor: "red",
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderRadius: 4,
+    alignItems: 'center',
+    marginBottom: 20,
+    width: '90%',
+
+},
+
+  aboutTitle: {
+   fontWeight: "bold",
+   color: "white",
+  },
+
 });

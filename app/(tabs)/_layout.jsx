@@ -5,6 +5,7 @@ import  {Pressable, StyleSheet, Text}  from 'react-native';
 export default function TabsLayout() {
    const { colors, toggleTheme, theme } = useThemeColors();
 
+
   const toggleButton = () => (
     <Pressable style={tabButton.toggleButton} onPress={toggleTheme}>
       <Text>{theme}</Text>
