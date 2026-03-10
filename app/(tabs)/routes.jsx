@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Appearance, UseColorScheme } from 'react-native';
 import * as SQLite from 'expo-sqlite';
-import { Appearance, UseColorScheme } from 'react-native/types_generated/index';
 
 async function loadAndQueryDB() {
   const dbName = "gtfs.db";
