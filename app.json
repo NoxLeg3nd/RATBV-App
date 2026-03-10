@@ -30,6 +30,7 @@
       "expo-sqlite",
       "expo-asset",
       "expo-router"
-    ]
+    ],
+     "scheme": "ratbvapp"
   }
 }
