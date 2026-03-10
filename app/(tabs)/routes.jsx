@@ -7,7 +7,7 @@ async function loadAndQueryDB() {
   const dbName = "gtfs.db";
 
   const db = await SQLite.openDatabaseAsync(dbName, {
-    assetSource: require("../../gtfs.db"),
+    assetSource: require("../../assets/gtfs.db"),
   });
 
   const rows = await db.getAllAsync('SELECT * FROM agency');
@@ -24,7 +24,6 @@ export default function Routes() {
     <SafeAreaProvider>
     <View style={routesStyles.routesView}>
       <Text style= {routesStyles.paragraph}>Check console for GTFS data</Text>
-      <Text style= {routesStyles.paragraph}>Agency ID</Text>
     </View>
     </SafeAreaProvider>
   ); 
