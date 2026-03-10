@@ -2,15 +2,30 @@ import { useEffect } from 'react';
 import { View , Text, StyleSheet } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import * as SQLite from 'expo-sqlite';
+import { Directory, File, Paths } from "expo-file-system";
+import { Asset } from "expo-asset";
 
 async function loadAndQueryDB() {
   const dbName = "gtfs.db";
 
-  const db = await SQLite.openDatabaseAsync(dbName, {
-    assetSource: require("../../assets/gtfs.db"),
-  });
+  const sqliteDir = new Directory(Paths.document, "SQLite");
+  const dbFile = new File(sqliteDir, dbName);
 
-  const rows = await db.getAllAsync('SELECT * FROM agency');
+  if (!sqliteDir.exists) {
+    sqliteDir.create();
+  }
+
+  if (!dbFile.exists) {
+    const asset = Asset.fromModule(require("../../assets/gtfs.db"));
+    await asset.downloadAsync();
+
+    const assetFile = new File(asset.localUri);
+    assetFile.copy(dbFile);
+  }
+
+  const db = await SQLite.openDatabaseAsync(dbName);
+
+  const rows = await db.getAllAsync("SELECT * FROM agency");
   console.log("Agency:", rows);
 
   const rows1 = await db.getAllAsync('SELECT * FROM stop_times WHERE trip_id LIKE "1_Mo-Fr_LivadaPostei-Triaj_%" AND stop_sequence="1"');
