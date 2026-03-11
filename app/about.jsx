@@ -1,72 +1,87 @@
 import { useEffect, useState } from 'react';
 import { getDB } from '../utils/db';
-import { View, Text, StyleSheet, Image, Pressable, Linking } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { View, Text, StyleSheet, Image, Pressable, Linking, ScrollView } from 'react-native';
 
 export default function About() {
-  const [db, setDb] = useState(null);
-  const [agency, setAgency] = useState(null);
+    const [db, setDb] = useState(null);
+    const [agency, setAgency] = useState(null);
 
-  useEffect(() => {
-    getDB().then(setDb);
-  }, []);
+    useEffect(() => {
+        getDB().then(setDb);
+    }, []);
 
-  useEffect(() => {
-    if (!db) return;
-    db.getFirstAsync('SELECT * FROM agency')
-      .then(row => setAgency(row));
-  }, [db]);
+    useEffect(() => {
+        if (!db) return;
+        db.getFirstAsync('SELECT * FROM agency').then(row => setAgency(row));
+    }, [db]);
 
-  return (
-    <SafeAreaProvider>
-      <View style={aboutStyles.aboutView}>
-        <Image style={aboutStyles.aboutImage} source={require("../assets/aboutgraphic.jpg")} resizeMode="contain"/>
-        <View style={aboutStyles.aboutTextView}>
-          <Text style={aboutStyles.aboutText}>{agency?.agency_name}</Text>
-          <Pressable onPress={() => Linking.openURL(agency?.agency_url)}>
-            <Text style={[aboutStyles.aboutLink, aboutStyles.aboutText]}>{agency?.agency_url}</Text>
-          </Pressable>
-          <Pressable onPress={() => Linking.openURL(`tel:${agency?.agency_phone.replace(/\s/g, '')}`)}>
-            <Text style={[aboutStyles.aboutLink, aboutStyles.aboutText]}>Phone: {agency?.agency_phone}</Text>
-          </Pressable>
-          <Pressable onPress={() => Linking.openURL(`mailto:${agency?.agency_email}`)}>
-            <Text style={[aboutStyles.aboutLink, aboutStyles.aboutText]}>E-mail: {agency?.agency_email}</Text>
-          </Pressable>
-          <Text style={aboutStyles.aboutText}>România, Brașov</Text>
-        </View>
-      </View>
-    </SafeAreaProvider>
-  );
+    return (
+        <ScrollView contentContainerStyle={aboutStyles.container}>
+            <Image
+                style={aboutStyles.headerImage}
+                source={require("../assets/aboutgraphic.jpg")}
+                resizeMode="contain"
+            />
+
+            <View style={aboutStyles.content}>
+                <Image
+                    style={aboutStyles.logo}
+                    source={require("../assets/ratbv.jpg")}
+                    resizeMode="contain"
+                />
+
+                <Pressable onPress={() => Linking.openURL(agency?.agency_url)}>
+                    <Text style={[aboutStyles.link, aboutStyles.text]}>{agency?.agency_url}</Text>
+                </Pressable>
+
+                <Pressable onPress={() => Linking.openURL(`tel:${agency?.agency_phone?.replace(/\s/g, '')}`)}>
+                    <Text style={[aboutStyles.link, aboutStyles.text]}>Phone: {agency?.agency_phone}</Text>
+                </Pressable>
+
+                <Pressable onPress={() => Linking.openURL(`mailto:${agency?.agency_email}`)}>
+                    <Text style={[aboutStyles.link, aboutStyles.text]}>E-mail: {agency?.agency_email}</Text>
+                </Pressable>
+
+                <Text style={aboutStyles.text}>România, Brașov</Text>
+            </View>
+        </ScrollView>
+    );
 }
+
 const aboutStyles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        paddingVertical: 20,
+        backgroundColor: '#fff',
+    },
 
-        aboutView: {
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: 'green',
-        },
+    headerImage: {
+        width: '100%',
+        height: 200,
+    },
 
-        aboutImage: {
-            flex: 1,
-            width: '100%',
-            bottom: 100,
-            backgroundColor: 'red'
-        },
+    content: {
+        alignItems: 'center',
+        marginTop: 20,
+        width: '90%',
+    },
 
-        aboutTextView: {
-            flex: 1,
-            alignItems: 'center',
-            backgroundColor: 'green'
-        },
-        
-        aboutText: {
-            fontSize: 20,
-            fontWeight: 'bold',
-        },
+    logo: {
+        width: '50%',
+        height: 80,
+        marginBottom: 20,
+    },
 
-        aboutLink: {
-            color: 'blue',
-            textDecorationLine: 'underline',
-        }
-    });
+    text: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginVertical: 5,
+        textAlign: 'center',
+    },
+
+    link: {
+        color: 'blue',
+        textDecorationLine: 'underline',
+    },
+});
