@@ -1,6 +1,9 @@
 import { router } from 'expo-router';
-import { View, Text, StyleSheet, Image, Pressable } from 'react-native';
+import { View, Text, StyleSheet, Image, Pressable, Dimensions} from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import React from 'react';
+
+const {width, height} = Dimensions.get("window");
 
 export default function Home() {
   
@@ -30,27 +33,24 @@ const homeStyles = StyleSheet.create({
   },
 
   welcomeParagraph: {
-    flex: 1,
     fontSize: 20,
     fontWeight: 'bold',
+    marginBottom: "10%"
   },
 
   decoImage: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    bottom: 45,
+    bottom: "25%",
     height: 90,
     width: 120,
   },
 
   coverImage: {
-    flex: 1,
     backgroundColor: "green",
-    alignContent: "flex-start",
-    width: 400,
-    height: '100%',
-    bottom: 45
+    width: width,
+    height: height > 400 ? 150 : 200,
+    bottom:"25%"
   },
 
   aboutContainer: {
