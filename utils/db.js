@@ -1,22 +1,38 @@
-import * as SQLite from 'expo-sqlite';
-import { Directory, File, Paths } from "expo-file-system";
-import { Asset } from 'expo-asset';
+import * as SQLite from "expo-sqlite";
+import * as FileSystem from "expo-file-system/legacy";
+import { Asset } from "expo-asset";
 
 let db = null;
+const DB_NAME = "gtfs.db";
 
 export async function getDB() {
-    if(db) return db;
+  if (db) return db;
 
-    const sqliteDir = new Directory(Paths.document, "SQLite");
-    const dbFile = new File(sqliteDir, "gtfs.db");
+  const dbDir = `${FileSystem.documentDirectory}SQLite`;
+  const dbPath = `${dbDir}/${DB_NAME}`;
 
-    if (!dbFile.exists) {
-        const asset = Asset.fromModule(require("../assets/gtfs.db"));
-        await asset.downloadAsync();
-        const assetFile = new File(asset.localUri);
-        assetFile.copy(dbFile);
-    }
+  const dir = await FileSystem.getInfoAsync(dbDir);
+  if (!dir.exists) {
+    await FileSystem.makeDirectoryAsync(dbDir, { intermediates: true });
+  }
 
-    db = await SQLite.openDatabaseAsync("gtfs.db");
-    return db;
+  const file = await FileSystem.getInfoAsync(dbPath);
+
+  if (!file.exists || file.size === 0) {
+    const asset = Asset.fromModule(require("../assets/gtfs.db"));
+    await asset.downloadAsync();
+
+    const assetUri = asset.localUri ?? asset.uri;
+
+    await FileSystem.copyAsync({
+      from: assetUri,
+      to: dbPath,
+    });
+  }
+
+  db = await SQLite.openDatabaseAsync(DB_NAME);
+   const info = await FileSystem.getInfoAsync(
+  `${FileSystem.documentDirectory}SQLite/gtfs.db`
+);
+  return db;
 }

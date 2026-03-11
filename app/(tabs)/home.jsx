@@ -1,7 +1,6 @@
 import { router } from 'expo-router';
 import { View, Text, StyleSheet, Image, Pressable, Dimensions} from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import React from 'react';
 
 const {width, height} = Dimensions.get("window");
 
@@ -54,12 +53,13 @@ const homeStyles = StyleSheet.create({
   },
 
   aboutPressable: {
+    position: "relative",
     backgroundColor: "red",
     paddingVertical: 10,
-    paddingHorizontal: 16,
-    borderRadius: 4,
+    paddingHorizontal: 20,
+    borderRadius: 20,
     alignItems: 'center',
-    marginBottom: 20,
+    bottom: "-20%",
     width: '90%',
 
 },

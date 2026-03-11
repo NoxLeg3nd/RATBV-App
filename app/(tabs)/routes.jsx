@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { View , Text, StyleSheet } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { Directory, File, Paths } from "expo-file-system";
 import { getDB } from '../../utils/db'
 
 export default function Routes() {
