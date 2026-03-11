@@ -53,13 +53,6 @@ const homeStyles = StyleSheet.create({
     bottom:"25%"
   },
 
-  aboutContainer: {
-    width: '100%',
-    paddingHorizontal: 16,
-    marginTop: 'auto',
-    marginBottom: 20,
-},
-
   aboutPressable: {
     backgroundColor: "red",
     paddingVertical: 10,
@@ -70,7 +63,6 @@ const homeStyles = StyleSheet.create({
     width: '90%',
 
 },
-
   aboutTitle: {
    fontWeight: "bold",
    color: "white",
