@@ -1,8 +1,12 @@
 import { useEffect, useState } from 'react';
 import { getDB } from '../utils/db';
 import { View, Text, StyleSheet, Image, Pressable, Linking, ScrollView } from 'react-native';
+import { useContext } from 'react';
+import { ThemeContext } from '../customHooks/themeProvider';
 
 export default function About() {
+    const { colors } = useContext(ThemeContext); 
+
     const [db, setDb] = useState(null);
     const [agency, setAgency] = useState(null);
 
@@ -16,7 +20,7 @@ export default function About() {
     }, [db]);
 
     return (
-        <ScrollView contentContainerStyle={aboutStyles.container}>
+        <ScrollView contentContainerStyle={[aboutStyles.container, {backgroundColor: colors.middleBackground}]}>
             <Image
                 style={aboutStyles.headerImage}
                 source={require("../assets/aboutgraphic.jpg")}
@@ -53,7 +57,6 @@ const aboutStyles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         paddingVertical: 20,
-        backgroundColor: '#fff',
     },
 
     headerImage: {

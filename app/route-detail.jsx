@@ -3,8 +3,12 @@ import { useLocalSearchParams, router } from "expo-router";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useEffect, useState } from "react";
 import { getDB } from "../utils/db";
+import { useContext } from 'react';
+import { ThemeContext } from '../customHooks/themeProvider';
 
 export default function RouteDetail() {
+    const {colors} = useContext(ThemeContext);
+
     const {id} = useLocalSearchParams();
     const [db, setDb] = useState(null);
     const [stops, setStops] = useState(null);
@@ -38,16 +42,16 @@ export default function RouteDetail() {
 
     return (
         <SafeAreaProvider>
-            <View style={styles.container}>
-                <Pressable style={styles.orderPressable}>
-                    <Text style={styles.orderPressableText} onPress={() => setDirection(direction === '0' ? '1' : '0')}>Change direction</Text>
+            <View style={[styles.container, {backgroundColor: colors.middleBackground}]}>
+                <Pressable style={[styles.orderPressable, {backgroundColor: colors.routesButton, borderColor: colors.routesBorder}]}>
+                    <Text style={[styles.orderPressableText, {color: colors.routesText}]} onPress={() => setDirection(direction === '0' ? '1' : '0')}>Change direction</Text>
                 </Pressable>
-                <Text style={styles.title}>Route {route?.route_short_name}: {route?.route_long_name}</Text>
-                <View style={styles.stopsContainer}>
+                <Text style={[styles.title, {color: colors.paragraphText}]}>Route {route?.route_short_name}: {route?.route_long_name}</Text>
+                <View style={[styles.stopsContainer, {backgroundColor: colors.middleBackground}]}>
                     <FlatList data={stops}
                               keyExtractor={(item) => item.stop_id}
                               renderItem={({ item, index }) => (
-                                  <Pressable style={styles.stopPressable} onPress={() => router.push(`/stop/${item.stop_id}`)}>
+                                  <Pressable style={[styles.stopPressable, {backgroundColor: colors.routesButton}]} onPress={() => router.push(`/stop/${item.stop_id}`)}>
                                       <View style={[styles.stopNumberView, {backgroundColor: `#${route?.route_color}`}]}>
                                           <Text style={[styles.stopNumber, {color: `#${route?.route_text_color}`}]}>{index+1}</Text>
                                       </View>
@@ -80,7 +84,6 @@ const styles = StyleSheet.create({
 
     orderPressableText: {
         fontSize: 20,
-        color: 'white',
     },
 
     title: {

@@ -8,7 +8,10 @@ const ThemeColors = {
     paragraphText: "black",
     buttonColor: "rgb(85, 156, 255)",
     borderColor: "rgb(62, 142, 255)",
-    middleBackground: "#FFFF"
+    middleBackground: "#FFFF",
+    routesText: "black",
+    routesButton: "white",
+    routesBorder: "black",
   },
 
   dark: {
@@ -17,7 +20,10 @@ const ThemeColors = {
     paragraphText: "#FFFF",
     buttonColor: "black",
     borderColor: "#FFFF",
-    middleBackground: "black"
+    middleBackground: "black",
+    routesText: "black",
+    routesButton: "white",
+    routesBorder: "white",
   },
 };
 

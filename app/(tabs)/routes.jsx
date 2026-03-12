@@ -3,8 +3,11 @@ import { View, Text, StyleSheet, FlatList, Pressable } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useEffect, useState } from "react";
 import { getDB } from "../../utils/db";
+import { useContext } from 'react';
+import { ThemeContext } from '../../customHooks/themeProvider';
 
 export default function Routes() {
+  const { colors } = useContext(ThemeContext);
 
   const [db, setDb] = useState(null);
   const [data, setData] = useState(null);
@@ -21,7 +24,7 @@ export default function Routes() {
 
   return (
       <SafeAreaProvider>
-        <View style={routesStyles.routesView}>
+        <View style={[routesStyles.routesView, {backgroundColor: colors.middleBackground}]}>
           <FlatList
               data={data}
               keyExtractor={item => item.route_id}
@@ -51,7 +54,6 @@ export default function Routes() {
 const routesStyles = StyleSheet.create({
   routesView: {
     flex: 1,
-    backgroundColor: '#fff',
   },
 
   routeItem: {
