@@ -1,45 +1,87 @@
-import { useEffect, useState } from 'react';
-import { View , Text, StyleSheet } from 'react-native';
+import { router } from 'expo-router';
+import { View, Text, StyleSheet, FlatList, Pressable } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { getDB } from '../../utils/db'
+import { useEffect, useState } from "react";
+import { getDB } from "../../utils/db";
 
 export default function Routes() {
-  const [ db, setDb ] = useState(null);
+
+  const [db, setDb] = useState(null);
+  const [data, setData] = useState(null);
 
   useEffect(() => {
     getDB().then(setDb);
   }, []);
 
   useEffect(() => {
-    if(!db) return;
-    db.getAllAsync('SELECT * FROM agency').then(console.log);
-  }, [db])
+    if (!db) return;
+    db.getAllAsync('SELECT * FROM routes ORDER BY CAST(route_short_name AS INTEGER), route_short_name')
+        .then(rows => setData(rows));
+  }, [db]);
 
   return (
-    <SafeAreaProvider>
-    <View style={routesStyles.routesView}>
-      <Text style= {routesStyles.paragraph}>Check console for GTFS data</Text>
-    </View>
-    </SafeAreaProvider>
-  ); 
+      <SafeAreaProvider>
+        <View style={routesStyles.routesView}>
+          <FlatList
+              data={data}
+              keyExtractor={item => item.route_id}
+              renderItem={({ item }) => (
+                  <Pressable
+                      style={routesStyles.routeItem}
+                      onPress={() => router.push(`/route-detail?id=${item.route_id}`)}
+                  >
+                    <View style={[routesStyles.routeInner, { backgroundColor: `#${item.route_color}` }]}>
+                      <View style={[routesStyles.routeNumberBox, { backgroundColor: 'rgba(0,0,0,0.2)' }]}>
+                        <Text style={[routesStyles.routeNumber, { color: `#${item.route_text_color}` }]}>
+                          {item.route_short_name}
+                        </Text>
+                      </View>
+                      <Text style={[routesStyles.routeName, { color: `#${item.route_text_color}` }]}>
+                        {item.route_long_name}
+                      </Text>
+                    </View>
+                  </Pressable>
+              )}
+          />
+        </View>
+      </SafeAreaProvider>
+  );
 }
 
 const routesStyles = StyleSheet.create({
-  
   routesView: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#FFFF",
+    backgroundColor: '#fff',
   },
 
-  paragraph: {
+  routeItem: {
+    paddingHorizontal: 16,
+    paddingVertical: 4,
+  },
+
+  routeInner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 8,
+    padding: 12,
+  },
+
+  routeNumber: {
+    fontWeight: 'bold',
+    fontSize: 22,
+    width: 60,
+  },
+
+  routeName: {
+    fontSize: 14,
     flex: 1,
-    top: 50,
-    paddingTop: 150,
-    fontSize: 20,
-    fontWeight: "bold",
-  }, 
+  },
 
-
+  routeNumberBox: {
+    borderRadius: 6,
+    padding: 6,
+    marginRight: 12,
+    minWidth: 50,
+    alignItems: 'center',
+  },
 });
