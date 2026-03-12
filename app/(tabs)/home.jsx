@@ -1,17 +1,20 @@
 import { router } from 'expo-router';
 import { View, Text, StyleSheet, Image, Pressable, Dimensions} from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { useContext } from 'react';
+import { ThemeContext } from '../../customHooks/themeProvider';
 
 const {width, height} = Dimensions.get("window");
 
 export default function Home() {
-  
+  const { colors } = useContext(ThemeContext);
+
   return (
     <SafeAreaProvider>
-      <View style={homeStyles.homeView}>
+      <View style={[homeStyles.homeView, {backgroundColor: colors.middleBackground}]}>
         <Image style={homeStyles.decoImage} source={require("../../assets/ratbv.jpg")} resizeMode='contain'/>
         <Image style={homeStyles.coverImage} source={require("../../assets/coverphoto.jpg")} resizeMode='cover' />
-        <Text style={homeStyles.welcomeParagraph}>
+        <Text style={[homeStyles.welcomeParagraph, {color: colors.paragraphText}]}>
           Welcome to the RATBV App!
         </Text>
           <Pressable onPress={() => router.push('../about')} style={homeStyles.aboutPressable}>
@@ -28,7 +31,6 @@ const homeStyles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#FFFF",
   },
 
   welcomeParagraph: {
@@ -65,7 +67,6 @@ const homeStyles = StyleSheet.create({
 },
   aboutTitle: {
    fontWeight: "bold",
-   color: "white",
   },
 
 });

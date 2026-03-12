@@ -6,8 +6,8 @@ import { ThemeContext } from '../../customHooks/themeProvider';
 export default function TabsLayout() {
   const { colors, toggleTheme, theme } = useContext(ThemeContext);
 
-  const makeHeaderRight = () => (
-    <Pressable style={tabButton.toggleButton} onPress={toggleTheme}>
+  const HeaderToggle = () => (
+    <Pressable style={[tabButton.toggleButton, {backgroundColor: colors.buttonColor, borderColor: colors.borderColor}]} onPress={toggleTheme}>
       <Text style={[tabButton.toggleText, { color: colors.text }]}>{theme}</Text>
     </Pressable>
   );
@@ -17,7 +17,7 @@ export default function TabsLayout() {
       screenOptions={{
         tabBarStyle: { backgroundColor: colors.background },
         tabBarActiveTintColor: colors.text,
-        tabBarInactiveTintColor: "#FFFF",
+        tabBarInactiveTintColor: "#f8feff",
         tabBarLabelStyle: { 
           fontSize: 12, 
           fontWeight: "bold" },
@@ -27,7 +27,7 @@ export default function TabsLayout() {
         name="home"
         options={{
           title: "Home",
-          headerRight: makeHeaderRight,
+          headerRight: () => <HeaderToggle/>,
           headerStyle: { 
             backgroundColor: colors.background 
           },
@@ -41,7 +41,7 @@ export default function TabsLayout() {
         name="routes"
         options={{
           title: "Routes",
-          headerRight: makeHeaderRight,
+          headerRight:  () => <HeaderToggle/>,
           headerStyle: { 
             backgroundColor: colors.background
            },
@@ -55,7 +55,7 @@ export default function TabsLayout() {
         name="favourites"
         options={{
           title: "Favourites",
-          headerRight: makeHeaderRight,
+          headerRight:  () => <HeaderToggle/>,
           headerStyle: { 
             backgroundColor: colors.background 
           },
@@ -75,15 +75,12 @@ const tabButton = StyleSheet.create({
     height: 30,
     marginRight: 10,
     borderWidth: 2,
-    borderColor: "rgb(85, 156, 255)",
     borderRadius: 50,
-    backgroundColor: "rgb(85, 156, 255)",
     justifyContent: "center",
     alignItems: "center",
   },
   toggleText: {
     fontSize: 12,
     fontWeight: "bold",
-    color: "white",
   },
 });

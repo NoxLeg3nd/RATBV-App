@@ -1,21 +1,46 @@
-import { useState } from "react";
-const ThemeColors = {
-    light: {
-        background:"rgb(136, 186, 255)",
-        text: "#FFFF",
-    },
+import { useState, useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-    dark: {
-        background: "black",
-        text: "#FFFF"
-    },
-}
+const ThemeColors = {
+  light: {
+    background: "rgb(136, 186, 255)",
+    text: "#FFFF",
+    paragraphText: "black",
+    buttonColor: "rgb(85, 156, 255)",
+    borderColor: "rgb(62, 142, 255)",
+    middleBackground: "#FFFF"
+  },
+
+  dark: {
+    background: "black",
+    text: "#FFFF",
+    paragraphText: "#FFFF",
+    buttonColor: "black",
+    borderColor: "#FFFF",
+    middleBackground: "black"
+  },
+};
+
+const THEME_KEY = "APP_THEME";
 
 const useThemeColors = () => {
   const [theme, setTheme] = useState("light");
 
-  const toggleTheme = () => {
-    setTheme((prev) => (prev === "light" ? "dark" : "light"));
+  useEffect(() => {
+    const loadTheme = async () => {
+      const storedTheme = await AsyncStorage.getItem(THEME_KEY);
+      if (storedTheme) {
+        setTheme(storedTheme);
+      }
+    };
+
+    loadTheme();
+  }, []);
+
+  const toggleTheme = async () => {
+    const newTheme = theme === "light" ? "dark" : "light";
+    setTheme(newTheme);
+    await AsyncStorage.setItem(THEME_KEY, newTheme);
   };
 
   return {
