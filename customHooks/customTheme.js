@@ -1,15 +1,13 @@
-import { useState
-    
- } from "react";
+import { useState } from "react";
 const ThemeColors = {
     light: {
-        background:"white",
-        text: "black"
+        background:"rgb(136, 186, 255)",
+        text: "#FFFF",
     },
 
     dark: {
         background: "black",
-        text: "white"
+        text: "#FFFF"
     },
 }
 

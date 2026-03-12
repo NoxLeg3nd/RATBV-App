@@ -1,19 +1,10 @@
 import { Stack } from 'expo-router';
-import { useColorScheme} from 'react-native';
+import ThemeProvider from '../customHooks/themeProvider'; 
 
 export default function Layout() {
-  let colorScheme = useColorScheme();
-  if(colorScheme === 'dark') {
-    return (
-        <Stack>
-            <Stack.Screen name="(tabs)" options= {{headerShown:false}} />
-        </Stack>
-    )
-  } else {
-    return (
-        <Stack>
-            <Stack.Screen name="(tabs)" options= {{headerShown:false}} />
-        </Stack>
-    )
-  }
+  return (
+    <ThemeProvider>
+      <Stack screenOptions={{ headerShown: false }} />
+    </ThemeProvider>
+  );
 }
