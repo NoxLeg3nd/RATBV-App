@@ -44,19 +44,23 @@ export default function RouteDetail() {
                 </Pressable>
                 <Text style={styles.title}>Route {route?.route_short_name}: {route?.route_long_name}</Text>
                 <View style={styles.stopsContainer}>
-                    <FlatList data={stops}
-                              keyExtractor={(item) => item.stop_id}
-                              renderItem={({ item, index }) => (
-                                  <Pressable style={styles.stopPressable} onPress={() => router.push(`/stop/${item.stop_id}`)}>
-                                      <View style={[styles.stopNumberView, {backgroundColor: `#${route?.route_color}`}]}>
-                                          <Text style={[styles.stopNumber, {color: `#${route?.route_text_color}`}]}>{index+1}</Text>
-                                      </View>
-                                      <Text style={styles.stopName}>{item.stop_name}</Text>
-                                  </Pressable>
-                              )}
-                    />
+                    {stops === null ? (
+                        <Text style={styles.title}>Loading...</Text>
+                    ) : stops.length === 0 ? (
+                        <Text style={styles.title}>Route does not have a return!</Text>
+                    ) : <FlatList data={stops}
+                                  keyExtractor={(item) => item.stop_id}
+                                  renderItem={({ item, index }) => (
+                                      <Pressable style={styles.stopPressable} onPress={() => router.push(`/stop/${item.stop_id}`)}>
+                                          <View style={[styles.stopNumberView, {backgroundColor: `#${route?.route_color}`}]}>
+                                              <Text style={[styles.stopNumber, {color: `#${route?.route_text_color}`}]}>{index+1}</Text>
+                                          </View>
+                                          <Text style={styles.stopName}>{item.stop_name}</Text>
+                                      </Pressable>
+                                  )}
+                        />
+                    }
                 </View>
-
             </View>
         </SafeAreaProvider>
     );
