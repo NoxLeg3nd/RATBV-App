@@ -1,6 +1,6 @@
 # RATBV App 🚌
 
-An unofficial mobile app for the RATBV public transport network in Brașov, Romania. Browse bus and trolleybus routes, view stop lists, switch directions, and check timetables — all from your phone, offline.
+An unofficial mobile app for the RATBV public transport network in Brașov, Romania. Browse bus and trolleybus routes, view stop lists, switch directions, and check timetables all from your phone, without the need for an internet connection.
 
 Built with Expo and React Native using official GTFS data from RATBV S.A.
 
@@ -32,6 +32,6 @@ Built with Expo and React Native using official GTFS data from RATBV S.A.
 ## Credits & Disclaimer
 
 - Data source: [RATBV S.A.](https://www.ratbv.ro/)
-- Built by: *your name here*
+- Built by: NoxLeg3nd and mlakar-marinela
 
 > **Disclaimer:** This is an unofficial app and is not affiliated with or endorsed by RATBV S.A. We do not take responsibility for any inaccuracies in the timetable or route data. Always check the [official RATBV website](https://www.ratbv.ro/) for the most up to date information.
