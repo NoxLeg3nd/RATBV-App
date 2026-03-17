@@ -3,8 +3,12 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useEffect, useState } from 'react';
 import { useLocalSearchParams, router } from 'expo-router';
 import { getDB } from '../utils/db';
+import { useContext } from 'react';
+import { ThemeContext } from '../customHooks/themeProvider';
 
 export default function StopTimetable() {
+
+  const {colors} = useContext(ThemeContext);
 
   const { stopId } = useLocalSearchParams();
   const [db, setDb] = useState(null);
@@ -20,7 +24,7 @@ export default function StopTimetable() {
 
     db.getAllAsync(
       `
-      SELECT
+      SELECT DISTINCT
         substr(stop_times.departure_time,1,2) AS departure_hour,
         substr(stop_times.departure_time,4,2) AS departure_minute,
         trips.service_id
@@ -76,58 +80,41 @@ export default function StopTimetable() {
 
     return (
   <SafeAreaProvider>
-    <View style={timetableStyles.tableView}>
-
-      <Pressable
-        style={timetableStyles.tableButton}
-        onPress={() => router.back()}
-      >
+    <View style={[timetableStyles.tableView, {backgroundColor: colors.middleBackground}]}>
+      <Pressable style={timetableStyles.tableButton} onPress={() => router.back()}>
         <Text>Go back</Text>
       </Pressable>
-
-      <Text style={timetableStyles.tableTitle}>Stop Timetable</Text>
-
-      <View style={timetableStyles.container}>
-
-        <View style={timetableStyles.firstRow}>
-          <Text style={{flex:1, textAlign:'center', marginLeft: 10}}>MONDAY-FRIDAY</Text>
-          <Text style={{flex:1, textAlign:'center'}}>SATURDAY-SUNDAY</Text>
+      <Text style={[timetableStyles.tableTitle, {color: colors.stopText}]}>Stop Timetable</Text>
+      <View style={[timetableStyles.container, {borderColor: colors.routesBorder}]}>
+        <View style={[timetableStyles.firstRow, {borderColor: colors.routesBorder}]}>
+          <Text style={[timetableStyles.weekdayTextStyle, {borderColor: colors.routesBorder, color: colors.stopText}]}>MONDAY-FRIDAY</Text>
+          <Text style={[timetableStyles.weekendTextStyle, {borderColor: colors.routesBorder, color: colors.stopText}]}>SATURDAY-SUNDAY</Text>
         </View>
-
-        <View style={timetableStyles.firstRow}>
-          <View style={{flex:1, flexDirection:'row'}}>
-            <Text style={{width:40}}>HOUR</Text>
-            <Text style={{flex:1, marginLeft: 110}}>MINUTES</Text>
+        <View style={[timetableStyles.firstRow, {borderColor: colors.routesBorder}]}>
+          <View style={timetableStyles.hourAndMinutesContainer}>
+            <Text style={[timetableStyles.displayHourText, {borderColor: colors.routesBorder, color: colors.stopText}]}>HOUR</Text>
+            <Text style={[timetableStyles.displayMinuteText, {color: colors.stopText}]}>MINUTES</Text>
           </View>
         </View>
-      
         <FlatList
           data={timetable}
           keyExtractor={(item, index) => index.toString()}
           renderItem={({ item }) => (
-
             <View style={timetableStyles.table}>
-
-          
-              <View style={{flex:1, flexDirection:'row', borderBottomWidth: 2, borderBottomColor: 'black', borderRightWidth:2, borderRightColor:'black'}}>
-                <Text style={{width:40}}>{item.hour}</Text>
-                <Text style={{flex:1}}>{item.weekdays}</Text>
+              <View style={[timetableStyles.displayDataContainer, {borderColor: colors.routesBorder}]}>
+                <Text style={[timetableStyles.displayHourData, {borderColor: colors.routesBorder, color: colors.stopText}]}>{item.hour}</Text>
+                <Text style={[timetableStyles.displayWeekdayMinutesData, {color: colors.stopText }]}>{item.weekdays}</Text>
               </View>
-
-              <View style={{flex:1, flexDirection:'row', borderBottomWidth: 2, borderBottomColor: 'black'}}>
-                <Text style={{flex:1, marginLeft: 25}}>{item.weekends}</Text>
+              <View style={[timetableStyles.displayWeekendMinutesContainer, {borderColor: colors.routesBorder}]}>
+                <Text style={[timetable.displayWeekendMinutesData, {borderColor: colors.routesBorder, color: colors.stopText}]}>{item.weekends}</Text>
               </View>
-
             </View>
-
           )}
         />
       </View>
-
     </View>
   </SafeAreaProvider>
 );
-
 }
 
 const timetableStyles = StyleSheet.create({
@@ -139,10 +126,9 @@ const timetableStyles = StyleSheet.create({
   },
 
   container:{
-    width: "90%",
-    maxHeight: "85%",
+    width: "85%",
+    maxHeight: "70%",
     borderWidth:2,
-    borderColor: "black",
   },
 
   tableTitle: {
@@ -152,22 +138,21 @@ const timetableStyles = StyleSheet.create({
   },
 
   tableButton: {
+    position:"absolute",
     borderWidth: 2,
     width: 70,
     height: 30,
-    marginTop: 35,
     marginRight: 300,
+    marginBottom: 700,
     backgroundColor: '#40f877',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   },
 
   firstRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 10,
     borderBottomWidth: 2,
-    borderBottomColor: "black",
   },
 
   table: {
@@ -177,6 +162,68 @@ const timetableStyles = StyleSheet.create({
   column: {
     flex: 1,
     flexDirection: 'column',
-  }
+  },
 
+  weekdayTextStyle: {
+    flex:1, 
+    textAlign:'center',
+    fontWeight:'bold', 
+    borderLeftWidth: 2,
+    marginLeft: 38.5,
+  },
+
+  weekendTextStyle: {
+    flex:1,
+    textAlign:'center', 
+    fontWeight:'bold',
+    borderLeftWidth: 2,
+    marginRight: 42,
+  },
+
+  hourAndMinutesContainer: {
+    flex:1, 
+    flexDirection:'row'
+  },
+
+  displayHourText: {
+    width:40, 
+    textAlign: 'center',
+    fontWeight:'bold',  
+    borderRightWidth:2, 
+  },
+
+   displayMinuteText: {
+    flex:1, 
+    textAlign:'center',
+    marginRight: 35, 
+    fontWeight:'bold'
+   },
+
+   displayDataContainer: {
+     flex:1, 
+     flexDirection:'row', 
+     borderBottomWidth: 2,  
+     borderRightWidth:2, 
+   },
+   
+   displayHourData: {
+     width:40,  
+     borderRightWidth:2, 
+   },
+
+   displayWeekdayMinutesData: {
+      flex:1
+   },
+
+   displayWeekendMinutesContainer: {
+     flex:1, 
+     flexDirection:'row', 
+     borderBottomWidth: 2,
+   },
+
+   displayWeekendMinutesData: {
+     flex:1, 
+     flexDirection:'row', 
+     borderBottomWidth: 2, 
+   }
 });

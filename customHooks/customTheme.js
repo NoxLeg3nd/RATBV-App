@@ -12,6 +12,7 @@ const ThemeColors = {
     routesText: "black",
     routesButton: "white",
     routesBorder: "black",
+    stopText: 'black'
   },
 
   dark: {
@@ -24,6 +25,7 @@ const ThemeColors = {
     routesText: "black",
     routesButton: "white",
     routesBorder: "white",
+    stopText: "white"
   },
 };
 
