@@ -51,7 +51,7 @@ export default function RouteDetail() {
                     <FlatList data={stops}
                               keyExtractor={(item) => item.stop_id}
                               renderItem={({ item, index }) => (
-                                  <Pressable style={[styles.stopPressable, {backgroundColor: colors.routesButton}]} onPress={() =>{router.push( `/stop-timetable?stopId=${item.stop_id}&serviceId=${item.service_id}`)}}>
+                                  <Pressable style={[styles.stopPressable, {backgroundColor: colors.routesButton}]} onPress={() =>{router.push(`/stop-timetable?stopId=${item.stop_id}&routeId=${id}&directionId=${direction}`)}}>
                                       <View style={[styles.stopNumberView, {backgroundColor: `#${route?.route_color}`}]}>
                                           <Text style={[styles.stopNumber, {color: `#${route?.route_text_color}`}]}>{index+1}</Text>
                                       </View>
