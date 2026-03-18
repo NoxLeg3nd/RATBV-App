@@ -46,7 +46,7 @@ export default function RouteDetail() {
                 <Pressable style={[styles.orderPressable, {backgroundColor: colors.routesButton, borderColor: colors.routesBorder}]}>
                     <Text style={[styles.orderPressableText, {color: colors.routesText}]} onPress={() => setDirection(direction === '0' ? '1' : '0')}>Change direction</Text>
                 </Pressable>
-                <Text style={[styles.title, {color: colors.paragraphText}]}>Route {route?.route_short_name}: {route?.route_long_name}</Text>
+                <Text style={[styles.title, {color: colors.paragraphText}]}>Route {route?.route_short_name}: {stops?.[0]?.stop_name} → {stops?.[stops.length-1]?.stop_name}</Text>
                 <View style={[styles.stopsContainer, {backgroundColor: colors.middleBackground}]}>
                     <FlatList data={stops}
                               keyExtractor={(item) => item.stop_id}
