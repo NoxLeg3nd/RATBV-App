@@ -82,7 +82,15 @@ const styles = StyleSheet.create({
     },
 
     orderPressableText: {
-        fontSize: 20,
+        position: 'absolute',
+        textAlignVertical: 'center',
+        borderWidth: 2,
+        borderRadius: 50,
+        height: 30,
+        top: 10,
+        left: 90,
+        fontSize: 14,
+        fontWeight: 'bold'
     },
 
     title: {
