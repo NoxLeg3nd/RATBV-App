@@ -46,12 +46,12 @@ export default function RouteDetail() {
                 <Pressable style={[styles.orderPressable, {backgroundColor: colors.routesButton, borderColor: colors.routesBorder}]}>
                     <Text style={[styles.orderPressableText, {color: colors.routesText}]} onPress={() => setDirection(direction === '0' ? '1' : '0')}>Change direction</Text>
                 </Pressable>
-                <Text style={[styles.title, {color: colors.paragraphText}]}>Route {route?.route_short_name}: {route?.route_long_name}</Text>
+                <Text style={[styles.title, {color: colors.paragraphText}]}>Route {route?.route_short_name}: {stops?.[0]?.stop_name} → {stops?.[stops.length-1]?.stop_name}</Text>
                 <View style={[styles.stopsContainer, {backgroundColor: colors.middleBackground}]}>
                     <FlatList data={stops}
                               keyExtractor={(item) => item.stop_id}
                               renderItem={({ item, index }) => (
-                                  <Pressable style={[styles.stopPressable, {backgroundColor: colors.routesButton}]} onPress={() =>{router.push( `/stop-timetable?stopId=${item.stop_id}&serviceId=${item.service_id}`)}}>
+                                  <Pressable style={[styles.stopPressable, {backgroundColor: colors.routesButton}]} onPress={() =>{router.push(`/stop-timetable?stopId=${item.stop_id}&routeId=${id}&directionId=${direction}`)}}>
                                       <View style={[styles.stopNumberView, {backgroundColor: `#${route?.route_color}`}]}>
                                           <Text style={[styles.stopNumber, {color: `#${route?.route_text_color}`}]}>{index+1}</Text>
                                       </View>

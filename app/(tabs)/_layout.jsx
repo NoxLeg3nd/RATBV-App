@@ -2,6 +2,7 @@ import { Tabs } from 'expo-router';
 import { useContext } from 'react';
 import { Pressable, StyleSheet, Text } from 'react-native';
 import { ThemeContext } from '../../customHooks/themeProvider';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function TabsLayout() {
   const { colors, toggleTheme, theme } = useContext(ThemeContext);
@@ -28,6 +29,7 @@ export default function TabsLayout() {
         name="home"
         options={{
           title: "Home",
+            tabBarIcon: ({ color, size }) => <Ionicons name="home" size={size} color={color} />,
           headerRight: () => <HeaderToggle/>,
           headerStyle: { 
             backgroundColor: colors.background 
@@ -42,6 +44,7 @@ export default function TabsLayout() {
         name="routes"
         options={{
           title: "Routes",
+            tabBarIcon: ({ color, size }) => <Ionicons name="map" size={size} color={color} />,
           headerRight:  () => <HeaderToggle/>,
           headerStyle: { 
             backgroundColor: colors.background
@@ -56,6 +59,7 @@ export default function TabsLayout() {
         name="favourites"
         options={{
           title: "Favourites",
+            tabBarIcon: ({ color, size }) => <Ionicons name="star" size={size} color={color} />,
           headerRight:  () => <HeaderToggle/>,
           headerStyle: { 
             backgroundColor: colors.background 
