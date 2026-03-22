@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const ThemeColors = {
+export const ThemeColors = {
   light: {
     background: "rgb(136, 186, 255)",
     text: "#FFFF",
@@ -29,7 +29,7 @@ const ThemeColors = {
   },
 };
 
-const THEME_KEY = "APP_THEME";
+export const THEME_KEY = "APP_THEME";
 
 const useThemeColors = () => {
   const [theme, setTheme] = useState("light");
