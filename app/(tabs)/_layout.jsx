@@ -13,26 +13,46 @@ const HeaderToggle = () => {
   );
 };
 
+const HomeIcon = ({ color, size }) => (
+  <Ionicons name="home" size={size} color={color} testID="home-icon" />
+);
+
+const RoutesIcon = ({ color, size }) => (
+  <Ionicons name="map" size={size} color={color} testID="routes-icon" />
+);
+
+const FavouritesIcon = ({ color, size }) => (
+  <Ionicons name="star" size={size} color={color} testID="favourites-icon" />
+);
+
  const TabsLayout = () => {
+
   const { colors } = useContext(ThemeContext);
+
   return (
-    <View testID="tabs" style={tabViewStyles.view}>
+    <View testID="tabs" style={[tabViewStyles.view, {backgroundColor: colors.background}]}>
       <Tabs
-        screenOptions={{
+        screenOptions={({ route }) => ({
           tabBarStyle: { backgroundColor: colors.background },
           tabBarActiveTintColor: colors.text,
           tabBarInactiveTintColor: "#f8feff",
           tabBarLabelStyle: { 
             fontSize: 12, 
-            fontWeight: "bold" },
-          headerRight: () => <HeaderToggle/>
-        }}
+            fontWeight: "bold" 
+          },
+          headerRight: () => <HeaderToggle />,
+          tabBarIcon: ({ color, size }) => {
+            if (route.name === 'home') return <HomeIcon color={color} size={size} />;
+            if (route.name === 'routes') return <RoutesIcon color={color} size={size} />;
+            if (route.name === 'favourites') return <FavouritesIcon color={color} size={size} />;
+            return null;
+          },
+        })}
       >
         <Tabs.Screen
           name="home"
           options={{
             title: "Home",
-            tabBarIcon: ({ color, size }) => <Ionicons name="home" size={size} color={color} />,
             headerStyle: { 
               backgroundColor: colors.background 
             },
@@ -46,7 +66,6 @@ const HeaderToggle = () => {
           name="routes"
           options={{
             title: "Routes",
-              tabBarIcon: ({ color, size }) => <Ionicons name="map" size={size} color={color} />,
             headerStyle: { 
               backgroundColor: colors.background
             },
@@ -60,7 +79,6 @@ const HeaderToggle = () => {
           name="favourites"
           options={{
             title: "Favourites",
-              tabBarIcon: ({ color, size }) => <Ionicons name="star" size={size} color={color} />,
             headerStyle: { 
               backgroundColor: colors.background 
             },
@@ -76,7 +94,7 @@ const HeaderToggle = () => {
 }
 
 export default TabsLayout;
-export { HeaderToggle, TabsLayout };
+export { HeaderToggle, HomeIcon, RoutesIcon, FavouritesIcon, TabsLayout };
 
 const tabButton = StyleSheet.create({
   toggleButton: {

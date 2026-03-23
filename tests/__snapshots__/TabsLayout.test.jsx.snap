@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TabsLayout full integration should render the component 1`] = `
+exports[`TabsLayout full integration should render the component with correct background color 1`] = `
 <RNCSafeAreaProvider
   onInsetsChange={[Function]}
   style={
@@ -29,9 +29,14 @@ exports[`TabsLayout full integration should render the component 1`] = `
   >
     <View
       style={
-        {
-          "flex": 1,
-        }
+        [
+          {
+            "flex": 1,
+          },
+          {
+            "backgroundColor": "rgb(136, 186, 255)",
+          },
+        ]
       }
       testID="tabs"
     />
