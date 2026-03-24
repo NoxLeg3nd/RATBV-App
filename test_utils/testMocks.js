@@ -8,3 +8,4 @@ jest.mock('@expo/vector-icons', () => {
     Ionicons: (props) => React.createElement('Ionicons', props),
   };
 });
+

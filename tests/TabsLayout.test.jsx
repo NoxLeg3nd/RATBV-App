@@ -3,7 +3,7 @@ import { HeaderToggle, HomeIcon, RoutesIcon, FavouritesIcon, TabsLayout } from '
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { THEME_KEY } from '../customHooks/customTheme';
 import ThemeProvider from '../customHooks/themeProvider';
-import { userEvent } from '@testing-library/react-native';
+import { userEvent, waitFor } from '@testing-library/react-native';
 import { StyleSheet } from 'react-native';
 
 describe('TabsLayout full integration', () => {
@@ -43,11 +43,16 @@ test('should render the component with correct background color', async () => {
 
     const toggleButton = screen.getByTestId('toggleButton');
 
+    expect(toggleButton).toBeOnTheScreen();
     expect(toggleButton).toHaveTextContent('light');
 
     await userEvent.press(toggleButton);
     
     expect(toggleButton).toHaveTextContent('dark');
+
+    await waitFor(async () => {
+    expect(await AsyncStorage.getItem(THEME_KEY)).toBe('dark');
+  });
   });
 
   test('home icon should render' , async() => {
@@ -64,7 +69,7 @@ test('should render the component with correct background color', async () => {
 
     const homeIcon = screen.getByTestId('home-icon');
 
-    expect(homeIcon).toBeTruthy();
+    expect(homeIcon).toBeOnTheScreen();
   });
 
    test('routes icon should render' , async() => {
@@ -81,7 +86,7 @@ test('should render the component with correct background color', async () => {
 
     const routesIcon = screen.getByTestId('routes-icon');
 
-    expect(routesIcon).toBeTruthy();
+    expect(routesIcon).toBeOnTheScreen();
   });
 
    test('favourites icon should render' , async() => {
@@ -98,6 +103,6 @@ test('should render the component with correct background color', async () => {
 
     const favouritesIcon = screen.getByTestId('favourites-icon');
 
-    expect(favouritesIcon).toBeTruthy();
+    expect(favouritesIcon).toBeOnTheScreen();
   });
 });   
