@@ -20,7 +20,7 @@ export default function About() {
     }, [db]);
 
     return (
-        <ScrollView contentContainerStyle={[aboutStyles.container, {backgroundColor: colors.middleBackground}]}>
+        <ScrollView testID='aboutView' contentContainerStyle={[aboutStyles.container, {backgroundColor: colors.middleBackground}]}>
             <Image
                 style={aboutStyles.headerImage}
                 source={require("../assets/aboutgraphic.jpg")}

@@ -6,18 +6,18 @@ import { ThemeContext } from '../../customHooks/themeProvider';
 
 const {width, height} = Dimensions.get("window");
 
-export default function Home() {
+const Home = () => {
   const { colors } = useContext(ThemeContext);
 
   return (
     <SafeAreaProvider>
-      <View style={[homeStyles.homeView, {backgroundColor: colors.middleBackground}]}>
-        <Image style={homeStyles.decoImage} source={require("../../assets/ratbv.jpg")} resizeMode='contain'/>
-        <Image style={homeStyles.coverImage} source={require("../../assets/coverphoto.jpg")} resizeMode='cover' />
+      <View testID='home-layout' style={[homeStyles.homeView, {backgroundColor: colors.middleBackground}]}>
+        <Image testID='logoImage' style={homeStyles.decoImage} source={require("../../assets/ratbv.jpg")} resizeMode='contain'/>
+        <Image testID='bannerImage' style={homeStyles.coverImage} source={require("../../assets/coverphoto.jpg")} resizeMode='cover' />
         <Text style={[homeStyles.welcomeParagraph, {color: colors.paragraphText}]}>
           Welcome to the RATBV App!
         </Text>
-          <Pressable onPress={() => router.push('../about')} style={homeStyles.aboutPressable}>
+          <Pressable testID='aboutButton' onPress={() => router.push('../about')} style={homeStyles.aboutPressable}>
             <Text style={homeStyles.aboutTitle}>About & info</Text>
           </Pressable>
       </View>
@@ -25,6 +25,7 @@ export default function Home() {
   );
 }
 
+export default Home;
 const homeStyles = StyleSheet.create({
   
   homeView: {
