@@ -5,11 +5,14 @@ import { useEffect, useState } from "react";
 import { getDB } from "../utils/db";
 import { useContext } from 'react';
 import { ThemeContext } from '../customHooks/themeProvider';
+import { addFavourite, removeFavourite } from "../utils/favourites";
+import { useFavourites } from "../customHooks/favouritesProvider";
 
 export default function RouteDetail() {
-    const {colors} = useContext(ThemeContext);
+    const { colors } = useContext(ThemeContext);
+    const { favouriteIds, setFavouriteIds } = useFavourites();
 
-    const {id} = useLocalSearchParams();
+    const { id } = useLocalSearchParams();
     const [db, setDb] = useState(null);
     const [stops, setStops] = useState(null);
     const [route, setRoute] = useState(null);
@@ -17,7 +20,7 @@ export default function RouteDetail() {
 
     useEffect(() => {
         getDB().then(setDb);
-    }, [])
+    }, []);
 
     useEffect(() => {
         if (!db) return;
@@ -35,35 +38,58 @@ export default function RouteDetail() {
     }, [db, direction]);
 
     useEffect(() => {
-        if(!db) return;
-        db.getFirstAsync(`SELECT * FROM routes WHERE route_id = ?`, [id]).then(row => setRoute(row));
+        if (!db) return;
+        db.getFirstAsync(`SELECT * FROM routes WHERE route_id = ?`, [id]).then(row => {
+            setRoute(row);
+        });
     }, [db]);
 
+    const toggleFavourite = async (item) => {
+        const isAlreadyFavourite = favouriteIds.includes(String(item.stop_id));
+
+        if (isAlreadyFavourite) {
+            await removeFavourite(item.stop_id);
+            setFavouriteIds(favouriteIds.filter(sid => sid !== String(item.stop_id)));
+        } else {
+            await addFavourite({ stop_id: String(item.stop_id), stop_name: item.stop_name, route_id: id, direction_id: direction, route_text_color: route?.route_text_color, route_color: route?.route_color });
+            setFavouriteIds([...favouriteIds, String(item.stop_id)]);
+        }
+    };
 
     return (
         <SafeAreaProvider>
-            <View style={[styles.container, {backgroundColor: colors.middleBackground}]}>
-                <Pressable style={[styles.orderPressable, {backgroundColor: colors.routesButton, borderColor: colors.routesBorder}]}>
-                    <Text style={[styles.orderPressableText, {color: colors.routesText}]} onPress={() => setDirection(direction === '0' ? '1' : '0')}>Change direction</Text>
+            <View style={[styles.container, { backgroundColor: colors.middleBackground }]}>
+                <Pressable style={[styles.orderPressable, { backgroundColor: colors.routesButton, borderColor: colors.routesBorder }]}>
+                    <Text style={[styles.orderPressableText, { color: colors.routesText }]} onPress={() => setDirection(direction === '0' ? '1' : '0')}>Change direction</Text>
                 </Pressable>
-                <Text style={[styles.title, {color: colors.paragraphText}]}>Route {route?.route_short_name}: {stops?.[0]?.stop_name} → {stops?.[stops.length-1]?.stop_name}</Text>
-                <View style={[styles.stopsContainer, {backgroundColor: colors.middleBackground}]}>
-                    <FlatList data={stops}
-                              keyExtractor={(item) => item.stop_id}
-                              renderItem={({ item, index }) => (
-                                  <Pressable style={[styles.stopPressable, {backgroundColor: colors.routesButton}]} onPress={() =>{router.push(`/stop-timetable?stopId=${item.stop_id}&routeId=${id}&directionId=${direction}`)}}>
-                                      <View style={[styles.stopNumberView, {backgroundColor: `#${route?.route_color}`}]}>
-                                          <Text style={[styles.stopNumber, {color: `#${route?.route_text_color}`}]}>{index+1}</Text>
-                                      </View>
-                                      <Text style={styles.stopName}>{item.stop_name}</Text>
-                                  </Pressable>
-                              )}
+                <Text style={[styles.title, { color: colors.paragraphText }]}>Route {route?.route_short_name}: {stops?.[0]?.stop_name} → {stops?.[stops.length - 1]?.stop_name}</Text>
+                <View style={[styles.stopsContainer, { backgroundColor: colors.middleBackground }]}>
+                    <FlatList
+                        data={stops}
+                        keyExtractor={(item) => item.stop_id}
+                        renderItem={({ item, index }) => (
+                            <Pressable
+                                style={[styles.stopPressable, { backgroundColor: colors.routesButton }]}
+                                onPress={() => router.push(`/stop-timetable?stopId=${item.stop_id}&routeId=${id}&directionId=${direction}`)}
+                            >
+                                <View style={[styles.stopNumberView, { backgroundColor: `#${route?.route_color}` }]}>
+                                    <Text style={[styles.stopNumber, { color: `#${route?.route_text_color}` }]}>{index + 1}</Text>
+                                </View>
+                                <Text style={styles.stopName}>{item.stop_name}</Text>
+                                <Pressable style={styles.heartButton} onPress={() => toggleFavourite(item)}>
+                                    <Text style={styles.heartIcon}>
+                                        {favouriteIds.includes(String(item.stop_id)) ? '❤️' : '🤍'}
+                                    </Text>
+                                </Pressable>
+                            </Pressable>
+                        )}
                     />
                 </View>
             </View>
         </SafeAreaProvider>
     );
 }
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -78,7 +104,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         paddingVertical: 10,
         margin: 10,
-
     },
 
     orderPressableText: {
@@ -126,7 +151,6 @@ const styles = StyleSheet.create({
     stopName: {
         fontSize: 16,
         flex: 1,
-
     },
 
     stopNumberView: {
@@ -138,4 +162,13 @@ const styles = StyleSheet.create({
         marginHorizontal: 8,
     },
 
-})
+    heartButton: {
+        paddingHorizontal: 12,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+
+    heartIcon: {
+        fontSize: 20,
+    },
+});
