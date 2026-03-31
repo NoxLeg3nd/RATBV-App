@@ -22,6 +22,7 @@ export default function About() {
     return (
         <ScrollView testID='aboutView' contentContainerStyle={[aboutStyles.container, {backgroundColor: colors.middleBackground}]}>
             <Image
+                testID='aboutGraphic'
                 style={aboutStyles.headerImage}
                 source={require("../assets/aboutgraphic.jpg")}
                 resizeMode="contain"
@@ -29,20 +30,21 @@ export default function About() {
 
             <View style={aboutStyles.content}>
                 <Image
+                    testID='coverImage'
                     style={aboutStyles.logo}
                     source={require("../assets/ratbv.jpg")}
                     resizeMode="contain"
                 />
 
-                <Pressable onPress={() => Linking.openURL(agency?.agency_url)}>
+                <Pressable testID='url' onPress={() => Linking.openURL(agency?.agency_url)}>
                     <Text style={[aboutStyles.link, aboutStyles.text]}>{agency?.agency_url}</Text>
                 </Pressable>
 
-                <Pressable onPress={() => Linking.openURL(`tel:${agency?.agency_phone?.replace(/\s/g, '')}`)}>
+                <Pressable testID='phone' onPress={() => Linking.openURL(`tel:${agency?.agency_phone?.replace(/\s/g, '')}`)}>
                     <Text style={[aboutStyles.link, aboutStyles.text]}>Phone: {agency?.agency_phone}</Text>
                 </Pressable>
 
-                <Pressable onPress={() => Linking.openURL(`mailto:${agency?.agency_email}`)}>
+                <Pressable testID='email' onPress={() => Linking.openURL(`mailto:${agency?.agency_email}`)}>
                     <Text style={[aboutStyles.link, aboutStyles.text]}>E-mail: {agency?.agency_email}</Text>
                 </Pressable>
 
