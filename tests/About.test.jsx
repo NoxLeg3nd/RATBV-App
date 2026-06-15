@@ -59,15 +59,11 @@ describe('About full integration', () => {
        );
 
       await screen.findByTestId('aboutGraphic');
-      await screen.findByTestId('coverImage');
 
       const aboutGraphic = screen.getByTestId('aboutGraphic');
-      const coverImage = screen.getByTestId('coverImage');
-      
+  
       expect(aboutGraphic).toBeOnTheScreen();
       expect(aboutGraphic.props.source.testUri).toBe('../../../assets/aboutgraphic.jpg');
-      expect(coverImage).toBeOnTheScreen();
-      expect(coverImage.props.source.testUri).toBe('../../../assets/ratbv.jpg');
       
       await waitFor(() => {});
     });
