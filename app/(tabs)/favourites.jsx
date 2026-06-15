@@ -39,10 +39,7 @@ export default function Favourites() {
                   data={favourites}
                   keyExtractor={(item) => item.stop_id}
                   renderItem={({ item, index }) => (
-                      <Pressable
-                          style={[styles.stopPressable, { backgroundColor: colors.routesButton }]}
-                          onPress={() => router.push(`/stop-timetable?stopId=${item.stop_id}&routeId=${item.route_id}&directionId=${item.direction_id}`)}
-                      >
+                      <Pressable style={[styles.stopPressable, { backgroundColor: colors.routesButton }]} onPress={() => router.push(`/stop-timetable?stopId=${item.stop_id}&routeId=${item.route_id}&directionId=${item.direction_id}`)}>
                         <View style={[styles.stopNumberView, { backgroundColor: `#${item.route_color}` }]}>
                           <Text style={[styles.stopNumber, { color: `#${item.route_text_color}` }]}>{item.route_id}</Text>
                         </View>

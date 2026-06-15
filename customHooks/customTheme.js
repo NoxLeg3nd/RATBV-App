@@ -12,7 +12,9 @@ export const ThemeColors = {
     routesText: "black",
     routesButton: "white",
     routesBorder: "black",
-    stopText: 'black'
+    stopText: 'black',
+    tableBackground:"white",
+    tableBorderColor: "black"
   },
 
   dark: {
@@ -25,7 +27,9 @@ export const ThemeColors = {
     routesText: "black",
     routesButton: "white",
     routesBorder: "white",
-    stopText: "white"
+    stopText: "white",
+    tableBackground: "black",
+    tableBorderColor: "white"
   },
 };
 

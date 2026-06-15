@@ -44,14 +44,10 @@ describe('Home full integration', () =>{
         { initialUrl: '/(tabs)/home', wrapper: ThemeProvider }
        );
 
-       await screen.findByTestId('logoImage');
        await screen.findByTestId('bannerImage');
 
-       const logo = screen.getByTestId('logoImage');
        const banner = screen.getByTestId('bannerImage');
       
-       expect(logo).toBeOnTheScreen();
-       expect(logo.props.source.testUri).toBe('../../../assets/ratbv.jpg');
        expect(banner).toBeOnTheScreen();
        expect(banner.props.source.testUri).toBe('../../../assets/coverphoto.jpg');       
 

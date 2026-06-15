@@ -71,12 +71,12 @@ export default function StopTimetable() {
   }, [db, stopId, routeId, directionId]);
 
   const TimetableSection = ({ title, data, accentColor }) => (
-      <View style={styles.section}>
+      <View style={[styles.section, {borderColor: colors.tableBorderColor}]}>
         <View style={[styles.sectionHeader, { backgroundColor: accentColor }]}>
           <Text style={styles.sectionHeaderText}>{title}</Text>
         </View>
 
-        <View style={[styles.tableHeader, { backgroundColor: colors.middleBackground, borderColor: colors.routesBorder }]}>
+        <View style={[styles.tableHeader, { backgroundColor: colors.middleBackground, borderColor: colors.tableBorderColor }]}>
           <Text style={[styles.headerHour, { color: colors.stopText }]}>HR</Text>
           <Text style={[styles.headerMinutes, { color: colors.stopText }]}>MINUTES</Text>
         </View>
@@ -89,11 +89,11 @@ export default function StopTimetable() {
                 <View style={[
                   styles.row,
                   {
-                    backgroundColor: index % 2 === 0 ? colors.routesButton : colors.middleBackground,
-                    borderColor: colors.routesBorder,
+                    backgroundColor: colors.tableBackground,
+                    borderColor: colors.tableBorderColor,
                   }
                 ]}>
-                  <View style={[styles.hourCell, { borderColor: colors.routesBorder }]}>
+                  <View style={[styles.hourCell, { borderColor: colors.tableBorderColor}]}>
                     <Text style={[styles.hourText, { color: accentColor }]}>{item.hour}</Text>
                   </View>
                   <Text style={[styles.minutesText, { color: colors.stopText }]}>{item.minutes}</Text>
@@ -105,37 +105,17 @@ export default function StopTimetable() {
 
   return (
       <SafeAreaProvider>
-        <View style={[styles.container, { backgroundColor: colors.middleBackground }]}>
-
+        <View style={[styles.container, { backgroundColor: colors.middleBackground}]}>
           <View style={styles.header}>
-            <Pressable
-                style={[styles.backButton, { backgroundColor: colors.routesButton, borderColor: colors.routesBorder }]}
-                onPress={() => router.back()}
-            >
+            <Pressable style={[styles.backButton, { backgroundColor: colors.routesButton, borderColor: colors.routesBorder }]} onPress={() => router.back()}>
               <Text style={[styles.backButtonText, { color: colors.routesText }]}>← Back</Text>
             </Pressable>
-            <Text style={[styles.stopTitle, { color: colors.paragraphText }]} numberOfLines={2}>
-              {stopName || 'Stop Timetable'}
-            </Text>
+            <Text style={[styles.stopTitle, { color: colors.paragraphText }]} numberOfLines={2}>{stopName || 'Stop Timetable'}</Text>
           </View>
-
-          <ScrollView
-              style={styles.scroll}
-              contentContainerStyle={styles.scrollContent}
-              showsVerticalScrollIndicator={false}
-          >
-            <TimetableSection
-                title="Monday – Friday"
-                data={weekdayRows}
-                accentColor="#4A90D9"
-            />
-            <TimetableSection
-                title="Saturday – Sunday"
-                data={weekendRows}
-                accentColor="#E07B4A"
-            />
+          <ScrollView  style={styles.scroll} contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+            <TimetableSection title="Monday – Friday" data={weekdayRows} accentColor="#4A90D9"/>
+            <TimetableSection title="Saturday – Sunday" data={weekendRows} accentColor="#E07B4A"/>
           </ScrollView>
-
         </View>
       </SafeAreaProvider>
   );
@@ -144,6 +124,7 @@ export default function StopTimetable() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingVertical: "10%"
   },
 
   header: {
@@ -155,15 +136,19 @@ const styles = StyleSheet.create({
 
   backButton: {
     alignSelf: 'flex-start',
-    borderRadius: 8,
-    borderWidth: 1,
+    borderWidth: 2,
+    borderRadius: 50,
+    height: 'auto',
     paddingHorizontal: 14,
-    paddingVertical: 8,
+    paddingVertical: 5,
+    width: 'fit-content',
+    marginLeft: 0
   },
 
   backButtonText: {
-    fontSize: 15,
-    fontWeight: '600',
+    textAlignVertical: 'center',
+    fontSize: 14,
+    fontWeight: 'bold'
   },
 
   stopTitle: {
@@ -186,7 +171,8 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     overflow: 'hidden',
     borderWidth: 1,
-    borderColor: 'rgba(128,128,128,0.2)',
+    width: "100%",
+    height:"fit-content"
   },
 
   sectionHeader: {
@@ -214,11 +200,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 12,
     letterSpacing: 1,
+    paddingRight: 10
   },
 
   headerMinutes: {
-    flex: 1,
-    paddingLeft: 12,
+    paddingRight: 15,
+    textAlign: "left",
     fontWeight: 'bold',
     fontSize: 12,
     letterSpacing: 1,

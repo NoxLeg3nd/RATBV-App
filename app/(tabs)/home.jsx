@@ -12,7 +12,6 @@ const Home = () => {
   return (
     <SafeAreaProvider>
       <View testID='home-layout' style={[homeStyles.homeView, {backgroundColor: colors.middleBackground}]}>
-        <Image testID='logoImage' style={homeStyles.decoImage} source={require("../../assets/ratbv.jpg")} resizeMode='contain'/>
         <Image testID='bannerImage' style={homeStyles.coverImage} source={require("../../assets/coverphoto.jpg")} resizeMode='cover' />
         <Text style={[homeStyles.welcomeParagraph, {color: colors.paragraphText}]}>
           Welcome to the RATBV App!
@@ -57,17 +56,18 @@ const homeStyles = StyleSheet.create({
 
   aboutPressable: {
     position: "relative",
-    backgroundColor: "red",
+    backgroundColor: "#005e05",
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 20,
     alignItems: 'center',
-    bottom: "-20%",
     width: '90%',
+    top: "25%"
 
 },
   aboutTitle: {
    fontWeight: "bold",
+   color: "#FFFFFF"
   },
 
 });

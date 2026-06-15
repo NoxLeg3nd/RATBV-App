@@ -59,8 +59,11 @@ export default function RouteDetail() {
     return (
         <SafeAreaProvider>
             <View style={[styles.container, { backgroundColor: colors.middleBackground }]}>
-                <Pressable style={[styles.orderPressable, { backgroundColor: colors.routesButton, borderColor: colors.routesBorder }]}>
+                <Pressable style={[styles.orderPressable, {backgroundColor: colors.routesButton, borderColor: colors.routesBorder}]}>
                     <Text style={[styles.orderPressableText, { color: colors.routesText }]} onPress={() => setDirection(direction === '0' ? '1' : '0')}>Change direction</Text>
+                </Pressable>
+                <Pressable style={[styles.backButton, { backgroundColor: colors.routesButton, borderColor: colors.routesBorder }]} onPress={() => router.back()}>
+                              <Text style={[styles.backButtonText, { color: colors.routesText }]}>← Back</Text>
                 </Pressable>
                 <Text style={[styles.title, { color: colors.paragraphText }]}>Route {route?.route_short_name}: {stops?.[0]?.stop_name} → {stops?.[stops.length - 1]?.stop_name}</Text>
                 <View style={[styles.stopsContainer, { backgroundColor: colors.middleBackground }]}>
@@ -68,18 +71,13 @@ export default function RouteDetail() {
                         data={stops}
                         keyExtractor={(item) => item.stop_id}
                         renderItem={({ item, index }) => (
-                            <Pressable
-                                style={[styles.stopPressable, { backgroundColor: colors.routesButton }]}
-                                onPress={() => router.push(`/stop-timetable?stopId=${item.stop_id}&routeId=${id}&directionId=${direction}`)}
-                            >
+                            <Pressable style={[styles.stopPressable, { backgroundColor: colors.routesButton }]} onPress={() => router.push(`/stop-timetable?stopId=${item.stop_id}&routeId=${id}&directionId=${direction}`)}>
                                 <View style={[styles.stopNumberView, { backgroundColor: `#${route?.route_color}` }]}>
                                     <Text style={[styles.stopNumber, { color: `#${route?.route_text_color}` }]}>{index + 1}</Text>
                                 </View>
                                 <Text style={styles.stopName}>{item.stop_name}</Text>
                                 <Pressable style={styles.heartButton} onPress={() => toggleFavourite(item)}>
-                                    <Text style={styles.heartIcon}>
-                                        {favouriteIds.includes(String(item.stop_id)) ? '❤️' : '🤍'}
-                                    </Text>
+                                    <Text style={styles.heartIcon}>{favouriteIds.includes(String(item.stop_id)) ? '❤️' : '🤍'}</Text>
                                 </Pressable>
                             </Pressable>
                         )}
@@ -95,25 +93,40 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        paddingVertical: '4%'
     },
 
     orderPressable: {
-        borderRadius: 5,
-        backgroundColor: 'black',
-        height: 'auto',
-        paddingHorizontal: 10,
-        paddingVertical: 10,
-        margin: 10,
+       alignSelf: 'flex-end',
+       borderWidth: 2,
+       borderRadius: 50,
+       height: 'auto',
+       paddingHorizontal: 14,
+       paddingVertical: 5,
+       width: 'fit-content',
+       marginRight: 10,
+       top: "3.8%"
     },
 
     orderPressableText: {
-        position: 'absolute',
         textAlignVertical: 'center',
-        borderWidth: 2,
-        borderRadius: 50,
-        height: 30,
-        top: 10,
-        left: 90,
+        fontSize: 14,
+        fontWeight: 'bold'
+    },
+
+     backButton: {
+       alignSelf: 'flex-start',
+       borderWidth: 2,
+       borderRadius: 50,
+       height: 'auto',
+       paddingHorizontal: 14,
+       paddingVertical: 5,
+       width: 'fit-content',
+       marginLeft: 10
+    },
+
+    backButtonText:{
+        textAlignVertical: 'center',
         fontSize: 14,
         fontWeight: 'bold'
     },
@@ -121,7 +134,8 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 20,
         fontWeight: 'bold',
-        margin: 15,
+        marginTop: '5%',
+        marginBottom: '5%'
     },
 
     stopsContainer: {
@@ -171,4 +185,5 @@ const styles = StyleSheet.create({
     heartIcon: {
         fontSize: 20,
     },
+
 });
