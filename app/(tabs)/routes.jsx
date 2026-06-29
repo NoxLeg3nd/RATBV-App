@@ -24,7 +24,7 @@ export default function Routes() {
 
   return (
       <SafeAreaProvider>
-        <View style={[routesStyles.routesView, {backgroundColor: colors.middleBackground}]}>
+        <View testID='routes-layout' style={[routesStyles.routesView, {backgroundColor: colors.middleBackground}]}>
           <FlatList
               data={data}
               keyExtractor={item => item.route_id}

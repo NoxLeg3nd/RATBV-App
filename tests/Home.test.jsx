@@ -30,6 +30,7 @@ describe('Home full integration', () =>{
        const homeLayout = screen.getByTestId('home-layout');
        const homeFlattenedStyle = StyleSheet.flatten(homeLayout.props.style);
 
+       expect(homeLayout).toBeTruthy();
        expect(homeFlattenedStyle.backgroundColor).toBe("#FFFFFF");
     });
 
