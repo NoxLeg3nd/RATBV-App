@@ -69,7 +69,7 @@ export default function RouteDetail() {
                 <View style={[styles.stopsContainer, { backgroundColor: colors.middleBackground }]}>
                     <FlatList
                         data={stops}
-                        keyExtractor={(item) => item.stop_id}
+                        keyExtractor={(item) => `${item.stop_id}_${item.stop_sequence}`}
                         renderItem={({ item, index }) => (
                             <Pressable style={[styles.stopPressable, { backgroundColor: colors.routesButton }]} onPress={() => router.push(`/stop-timetable?stopId=${item.stop_id}&routeId=${id}&directionId=${direction}`)}>
                                 <View style={[styles.stopNumberView, { backgroundColor: `#${route?.route_color}` }]}>
